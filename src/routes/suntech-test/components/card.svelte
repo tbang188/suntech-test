@@ -18,19 +18,27 @@
 
     function handleSave() {
         if (editedName !== name || editedDescription !== description) {
-            console.log('Dữ liệu đã thay đổi:');
-            console.log('Trước khi chỉnh sửa:', { name, description });
-            console.log('Sau khi chỉnh sửa:', { editedName, editedDescription });
+            console.log("Dữ liệu đã thay đổi:");
+            console.log("Trước khi chỉnh sửa:", { name, description });
+            console.log("Sau khi chỉnh sửa:", {
+                editedName,
+                editedDescription,
+            });
 
-            const cardData = { id, name: editedName, description: editedDescription };
-            dispatch('editCard', cardData);
+            const cardData = {
+                id,
+                name: editedName,
+                description: editedDescription,
+            };
+            dispatch("editCard", cardData);
+            name = editedName;
+            description = editedDescription;
         } else {
-            console.log('Dữ liệu không thay đổi.');
+            console.log("Dữ liệu không thay đổi.");
         }
 
         isEditing = false;
     }
-
 
     function handleDelete() {
         const cardData = { id, name, description };
@@ -40,16 +48,31 @@
 
 <div class="card-content">
     {#if isEditing}
-        {`ID: ${id}`}<br />
-        Tên:<input type="text" bind:value={editedName} /><br>
-        Mô tả:<input type="text" bind:value={editedDescription} />
+        <div class="text-output">{`ID: ${id}`}</div>
+        <div class="text-output">
+            Tên:<input
+                type="text"
+                style="width: 249px;margin-left: 19px;"
+                bind:value={editedName}
+            />
+        </div>
+        <div class="text-output">
+            Mô tả:<input
+                type="text"
+                style="width: 250px;"
+                bind:value={editedDescription}
+            />
+        </div>
         <div class="button">
             <button class="edit-button" on:click={handleSave}>Save</button>
         </div>
     {:else}
-        {`ID: ${id}`}<br />
-        {`Tên: ${name}`} <br />
-        {`Mô tả: ${description}`}
+        <div class="text-output">
+            {`ID: ${id}`}
+        </div>
+        <div class="text-output">{`Tên: ${name}`}</div>
+        <div class="text-output">{`Mô tả: ${description}`}</div>
+
         <div class="button">
             <button class="edit-button" on:click={handleEdit}>Edit</button>
             <button class="delete-button" on:click={() => handleDelete()}
@@ -60,18 +83,24 @@
 </div>
 
 <style>
-    input{
-        padding: 1px;
-        width: 100px;
+    input {
+        padding: 0;
+        outline: none;
+        border: none;
+        height: 20px;
         font-size: 13px;
-        border: 1px solid #333;
-        border-radius: 3px;
-        margin-bottom: 3px;
+        background-color: rgb(194, 194, 194);
+        margin-left: 5px;
+    }
+    .text-output {
+        height: 20px;
+        margin-top: 8px;
+        margin-bottom: 8px;
     }
     .card-content {
         display: inline-block;
         width: 31%;
-        height: 100px;
+        height: 150px;
         border: 2px solid blue;
         border-radius: 4px;
         margin: 5px;
@@ -79,7 +108,9 @@
     }
     .button {
         display: flex;
+        align-items: flex-end;
         justify-content: space-around;
+        margin-top: 15px;
     }
     .edit-button,
     .delete-button {

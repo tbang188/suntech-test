@@ -36,16 +36,15 @@
     }
 
     function handleEditCard(cardData) {
-        console.log("Received card data for edit:", cardData); 
-        cardArr = cardArr.map((card) => {
-            if (card.id === cardData.id) {
-                return cardData;
-            } else {
-                return card;
-            }
-        });
+    let editedCardIndex = cardArr.findIndex((card) => card.id === cardData.id);
+    if (editedCardIndex !== -1) {
+        cardArr[editedCardIndex] = cardData;
+        // Gán giá trị mới cho name và description
+        cardArr[editedCardIndex].name = cardData.name;
+        cardArr[editedCardIndex].description = cardData.description;
         showMessageWithTimeout("Product updated.");
     }
+}
 
     function handleDeleteCard(event) {
         const { id } = event.detail;
@@ -109,6 +108,7 @@
     .card-list {
         display: block;
         width: 1000px;
+        height: 255px;
     }
     h1,
     h2 {
